@@ -1,4 +1,4 @@
-![App Screenshot](https://github.com/ajaysoni12/MySirg-Saurabh-Shukla-Sir-C-langauge-CPP-Language-DSA-IOT-Course-Assignments-with-Solutio/blob/master/C(Loops-For%2CWhilte%2CDo_while)%20-%20Assignment-4%20%231/SaurabhSuklaSirg.jpg)
+![App Screenshot](https://github.com/ajaysoni12/MySirg-Saurabh-Shukla-Sir-C-langauge-CPP-Language-DSA-IOT-Course-Assignments-with-Solution/blob/master/SaurabhSuklaSirg.jpg)
 
 
 # MySirg-Saurabh-Shukla-Sir-C-langauge-CPP-Language-DSA-IOT-Course-Assignments-with-Solutions
