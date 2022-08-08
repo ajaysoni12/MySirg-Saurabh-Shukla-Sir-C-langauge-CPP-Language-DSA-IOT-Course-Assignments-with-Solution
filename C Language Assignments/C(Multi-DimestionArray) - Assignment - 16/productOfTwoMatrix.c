@@ -1,7 +1,7 @@
 #include <stdio.h>
 int main()
 {
-    int a[3][3], b[3][3], productMatrix[3][3];
+    int a[3][3], b[3][3], productMatrix[3][3] = {0};
     printf("Enter Element in First 3*3 Matrix: \n");
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
@@ -12,10 +12,18 @@ int main()
         for (int j = 0; j < 3; j++)
             scanf("%d", &b[i][j]);
 
-    // Sum of Matrix
+    // Product of Matrix
     for (int i = 0; i < 3; i++)
+    {
         for (int j = 0; j < 3; j++)
-            productMatrix[i][j] = a[i][j] * b[i][j];
+        {
+            for (int k = 0; k < 3; k++)
+            {
+                productMatrix[i][j] += a[i][k] * b[k][j]; 
+            }
+        }
+    }
+
 
     // print First Matrix
     printf("First Matrix:\n");
