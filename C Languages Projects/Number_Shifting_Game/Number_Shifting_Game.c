@@ -6,6 +6,7 @@ int row, col;
 int workKey(int arr[][4], char key)
 {
     system("cls");
+    int flag = 0;
     if (key == 75) // for left
     {
         if (col > 0)
@@ -15,7 +16,7 @@ int workKey(int arr[][4], char key)
             arr[row][col - 1] = temp;
             col--;
         }
-        return 1;
+        flag = 1;
     }
     else if (key == 72) // up
     {
@@ -26,7 +27,7 @@ int workKey(int arr[][4], char key)
             arr[row - 1][col] = temp;
             row--;
         }
-        return 1;
+        flag = 1;
     }
     else if (key == 80) // down
     {
@@ -37,7 +38,7 @@ int workKey(int arr[][4], char key)
             arr[row + 1][col] = temp;
             row++;
         }
-        return 1;
+        flag = 1;
     }
     else if (key == 77) // right
     {
@@ -48,9 +49,11 @@ int workKey(int arr[][4], char key)
             arr[row][col + 1] = temp;
             col++;
         }
-        return 1;
+        flag = 1;
     }
-    return 0;
+    if (flag)
+        return 1; // if user press arrow key
+    return 0;     // if user press remaining another key means it's exists
 }
 
 int check_win_condition(int arr[][4])
@@ -61,7 +64,7 @@ int check_win_condition(int arr[][4])
     {
         for (j = 0; j < 4; j++)
         {
-            count++;
+            count++; // according to winning condition all num are sorted so we create count variable and update continuesoly
             if (arr[i][j] != count)
                 return 0;
         }
@@ -101,24 +104,25 @@ int check_exist(int arr[][4], int randome)
     }
     return 1;
 }
-void randomeNumGen(int arr[][4])
+void randNumGen(int arr[][4])
 {
-    int i, j;
-    int flag = 1;
-    srand(time(0));
+    int i, j, flag = 1, randome;
+    srand(time(0)); // per execution randome number different generate
     for (i = 0; i < 4; i++)
     {
         j = 0;
         while (j < 4)
         {
-            int randome = rand() % 16 + 1;
-            if (check_exist(arr, randome))
+            randome = rand() % 16 + 1;     // %16 means i need only 1 - 15
+            if (check_exist(arr, randome)) // this function check any number should not be repeated
             {
                 arr[i][j] = randome;
                 j++;
             }
         }
     }
+
+    // Here we find 16, and convert 32 for space
     for (i = 0; i < 4; i++)
     {
         for (j = 0; j < 4; j++)
@@ -130,7 +134,7 @@ void randomeNumGen(int arr[][4])
             }
         }
     }
-    arr[row][col] = 32;
+    arr[row][col] = 32; // assign 32 for space
 }
 
 int menu()
@@ -171,28 +175,28 @@ int menu()
 
 int main()
 {
-    int totalMoves = 30, flag = 1;
-    char arrowKey;
-    int randomeNum[4][4];
-    char name[30];
+    int totalMoves = 50, flag = 1; // totalMoves given - 50
+    char arrowKey, opt;            // take user input from arrowkey
+    int randNum[4][4];             // randome Number Generate in Matrix
+    char userName[30];             // take UserName
 
     printf("Enter your name: ");
-    fgets(name, 30, stdin);
+    fgets(userName, 30, stdin); // input userName
 
-    system("cls");
-    randomeNumGen(randomeNum);
-    display(randomeNum, totalMoves, name);
+    randNumGen(randNum); // Fill Randome Num in Matrix
 
-    if (menu())
+    if (menu()) // First we show our menu if user press Y means continue or N means N. it all handle this if conditions
     {
         while (totalMoves--)
         {
-            display(randomeNum, totalMoves, name);
+            display(randNumGen, totalMoves, userName); // Display matrix, username, and totalMoves
             arrowKey = getch();
             arrowKey = getch();
-            if (!workKey(randomeNum, arrowKey))
-                exit(0);
-            if (check_win_condition(randomeNum))
+
+            if (!workKey(randNum, arrowKey))
+                exit(0); // if user don't press arrow key
+
+            if (check_win_condition(randNumGen))
             {
                 flag = 0;
                 break;
@@ -203,9 +207,8 @@ int main()
         else
             printf("You Won!");
 
-		fflush(stdin); 
-        char opt;
-        printf("\nDo you want to play Again! Press Y or For exit Press N");
+        fflush(stdin);
+        printf("\nDo you want to play again if yes to press 'y' or 'Y', either press 'n' or 'N' ");
         scanf("%c", &opt);
         if (opt == 'Y')
             main();
@@ -223,4 +226,3 @@ int main()
 
     return 0;
 }
-
