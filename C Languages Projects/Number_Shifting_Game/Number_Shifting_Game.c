@@ -189,14 +189,14 @@ int main()
     {
         while (totalMoves--)
         {
-            display(randNumGen, totalMoves, userName); // Display matrix, username, and totalMoves
+            display(randNum, totalMoves, userName); // Display matrix, username, and totalMoves
             arrowKey = getch();
             arrowKey = getch();
 
             if (!workKey(randNum, arrowKey))
                 exit(0); // if user don't press arrow key
 
-            if (check_win_condition(randNumGen))
+            if (check_win_condition(randNum))
             {
                 flag = 0;
                 break;
