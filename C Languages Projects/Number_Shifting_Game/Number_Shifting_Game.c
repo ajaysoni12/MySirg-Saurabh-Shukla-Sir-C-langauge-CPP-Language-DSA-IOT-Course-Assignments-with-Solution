@@ -163,9 +163,9 @@ int menu()
     printf("|  9  | 10  | 11  | 12  |\n");
     printf("| 13  | 14  | 15  |     |");
     printf("\n-------------------------\n");
-    printf("\n5. You can exit the game at any time by Pressing any key left arrowKeys \n");
+    printf("\n5. You can exit the game at any time by Pressing any key(Left ArrowKeys) \n");
     printf("\nSo try to win in minimum no. of move!");
-    printf("\nPress 'Y' or 'y' key for continue!\nOr Press remaining any key for exits\n");
+    printf("\nPress 'Y' or 'y' key for continue......\n");
     scanf("%c", &yesNo);
     system("cls");
     if (yesNo == 'Y' || yesNo == 'y')
