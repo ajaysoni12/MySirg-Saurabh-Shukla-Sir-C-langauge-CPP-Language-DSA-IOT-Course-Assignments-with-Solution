@@ -6,41 +6,7 @@ int row, col;
 int workKey(int arr[][4], char key)
 {
     system("cls");
-    int flag = 0;
-    if (key == 75) // for left
-    {
-        if (col > 0)
-        {
-            int temp = arr[row][col];
-            arr[row][col] = arr[row][col - 1];
-            arr[row][col - 1] = temp;
-            col--;
-        }
-        flag = 1;
-    }
-    else if (key == 72) // up
-    {
-        if (row > 0)
-        {
-            int temp = arr[row][col];
-            arr[row][col] = arr[row - 1][col];
-            arr[row - 1][col] = temp;
-            row--;
-        }
-        flag = 1;
-    }
-    else if (key == 80) // down
-    {
-        if (row < 3)
-        {
-            int temp = arr[row][col];
-            arr[row][col] = arr[row + 1][col];
-            arr[row + 1][col] = temp;
-            row++;
-        }
-        flag = 1;
-    }
-    else if (key == 77) // right
+    if (key == 75) // for right
     {
         if (col < 3)
         {
@@ -48,12 +14,43 @@ int workKey(int arr[][4], char key)
             arr[row][col] = arr[row][col + 1];
             arr[row][col + 1] = temp;
             col++;
+            return 1;
         }
-        flag = 1;
     }
-    if (flag)
-        return 1; // if user press arrow key
-    return 0;     // if user press remaining another key means it's exists
+    else if (key == 72) // for down
+    {
+        if (row < 3)
+        {
+            int temp = arr[row][col];
+            arr[row][col] = arr[row + 1][col];
+            arr[row + 1][col] = temp;
+            row++;
+            return 1;
+        }
+    }
+    else if (key == 80) // for up
+    {
+        if (row > 0)
+        {
+            int temp = arr[row][col];
+            arr[row][col] = arr[row - 1][col];
+            arr[row - 1][col] = temp;
+            row--;
+            return 1;
+        }
+    }
+    else if (key == 77) // for left
+    {
+        if (col > 0)
+        {
+            int temp = arr[row][col];
+            arr[row][col] = arr[row][col - 1];
+            arr[row][col - 1] = temp;
+            col--;
+            return 1;
+        }
+    }
+    return 0;
 }
 
 int check_win_condition(int arr[][4])
@@ -75,6 +72,8 @@ void display(int arr[][4], int totalMove, char name[])
 {
     printf("Player Name: %s", name);
     printf("Total Remaining Move: %d\n", totalMove);
+    printf("You can exit the game by press double time 'E' or 'e'!\n"); // double because if user press e or E by mistake
+    fflush(stdin); 
     int i, j;
     printf("---------------------\n");
     for (i = 0; i < 4; i++)
@@ -137,10 +136,9 @@ void randNumGen(int arr[][4])
     arr[row][col] = 32; // assign 32 for space
 }
 
-int menu()
+void gameRules()
 {
     system("cls");
-    char yesNo;
     printf("\t\t\tMATRIX PUZZULE");
     printf("\n\t\t     RULE OF THIS GAME  \n\n");
 
@@ -163,65 +161,100 @@ int menu()
     printf("|  9  | 10  | 11  | 12  |\n");
     printf("| 13  | 14  | 15  |     |");
     printf("\n-------------------------\n");
-    printf("\n5. You can exit the game at any time by Pressing any key(Left ArrowKeys) \n");
+    printf("\n5. You can exit the game at any time by Pressing Double time 'E' or 'e' \n"); // double because if user press e or E by mistake
     printf("\nSo try to win in minimum no. of move!");
-    printf("\nPress 'Y' or 'y' key for continue......\n");
-    scanf("%c", &yesNo);
+    printf("\nPress any key to continue.....");
+    getch();
     system("cls");
-    if (yesNo == 'Y' || yesNo == 'y')
+}
+
+int exitKey(char key)
+{
+    if (key == 'E' || key == 'e')
+        return 0;
+    return 1;
+}
+
+int restartGame()
+{
+    system("cls");
+    char opt;
+    printf("\nDo you want to play again if yes to press 'y' or 'Y', either press 'n' or 'N' ");
+    scanf("%c", &opt);
+    if (opt == 'Y' || opt == 'y')
         return 1;
     return 0;
 }
 
 int main()
 {
-    int totalMoves = 50, flag = 1; // totalMoves given - 50
-    char arrowKey, opt;            // take user input from arrowkey
-    int randNum[4][4];             // randome Number Generate in Matrix
-    char userName[30];             // take UserName
+    system("cls");
+    int totalMoves = 5, flag = 1; // totalMoves given - 50
+    char arrowKey, opt;           // take user input from arrowkey
+    int randNum[4][4];            // randome Number Generate in Matrix
+    char userName[30];            // take UserName
 
+    fflush(stdin);
     printf("Enter your name: ");
     fgets(userName, 30, stdin); // input userName
 
     randNumGen(randNum); // Fill Randome Num in Matrix
 
-    if (menu()) // First we show our menu if user press Y means continue or N means N. it all handle this if conditions
-    {
-        while (totalMoves--)
-        {
-            display(randNum, totalMoves, userName); // Display matrix, username, and totalMoves
-            arrowKey = getch();
-            arrowKey = getch();
+    gameRules();
 
-            if (!workKey(randNum, arrowKey))
-                exit(0); // if user don't press arrow key
+    while (1)
+    {
+        display(randNum, totalMoves, userName); // Display matrix, username, and totalMoves
+        arrowKey = getch();
+        arrowKey = getch();
+        fflush(stdin);
+        if (exitKey(arrowKey))
+        {
+            if (workKey(randNum, arrowKey))
+                totalMoves--;
 
             if (check_win_condition(randNum))
             {
-                flag = 0;
-                break;
+                system("cls");
+                printf("\nYou Won!");
+                if (restartGame())
+                    main();
+                else
+                {
+                    printf("\nVisit Again!");
+                    exit(0);
+                }
             }
         }
-        if (flag)
-            printf("You loss!");
-        else
-            printf("You Won!");
-
-        fflush(stdin);
-        printf("\nDo you want to play again if yes to press 'y' or 'Y', either press 'n' or 'N' ");
-        scanf("%c", &opt);
-        if (opt == 'Y')
-            main();
-        else
+        else // For Exit Purpose
         {
-            printf("\nVisit again!");
-            exit(0);
+            system("cls");
+            printf("\nYou Exit!");
+            printf("\nPress any key.....");
+            getch();
+            if (restartGame())
+                main();
+            else
+            {
+                printf("\nVisit Again!");
+                exit(0);
+            }
         }
-    }
-    else
-    {
-        printf("\nVisit again!");
-        exit(0);
+
+        if (totalMoves == 0)
+        {
+            system("cls");
+            printf("\nYou Loss!");
+            printf("\nPress any key.....");
+            getch();
+            if (restartGame())
+                main();
+            else
+            {
+                printf("\nVisit Again!");
+                exit(0);
+            }
+        }
     }
 
     return 0;
