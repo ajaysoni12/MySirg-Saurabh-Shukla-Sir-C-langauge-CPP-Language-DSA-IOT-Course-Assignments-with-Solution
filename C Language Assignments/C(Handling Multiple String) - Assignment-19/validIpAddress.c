@@ -13,29 +13,26 @@ Leading zeros are allowed in xi.
 For example, "2001:0db8:85a3:0000:0000:8a2e:0370:7334" and "2001:db8:85a3:0:0:8A2E:0370:7334" are valid IPv6 addresses, while "2001:0db8:85a3::8A2E:037j:7334" and "02001:0db8:85a3:0000:0000:8a2e:0370:7334" are invalid IPv6 addresses.
 */
 
-int check_IPAddressIPV_4(char str[][100], int noOfString)
-{
-   
-}
-
 #include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 int main()
 {
-    int noOfString;
-    printf("How many ip address u want to enter- ");
-    scanf("%d", &noOfString);
-    fflush(stdin);
-    char ipAddress[noOfString][100];
+    char ip[] = "23.100.453.255";
+    int countDot = 0, countVal = 0;
 
-    printf("Enter %d Ip Address \n", noOfString);
-    for (int i = 0; i < noOfString; i++)
-        fgets(ipAddress[i], 100, stdin);
-
-    int valid = check_IPAddressIPV_4(ipAddress, noOfString);
-    if (valid)
-        printf("\nAll ip's address are valid!");
+    char *a = strtok(ip, ".");
+    while (a != NULL)
+    {
+        int x = atoi(a);
+        if (x >= 0 && x <= 255)
+            countVal++;
+        a = strtok(NULL, ".");
+        countDot++;
+    }
+    if (countDot == 4 && countVal == 4)
+        printf("Valid ip address!");
     else
-        printf("\nSome ip's address are invalid");
-
+        printf("Invalid ip addresss!");
     return 0;
 }
