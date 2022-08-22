@@ -1,13 +1,22 @@
-![App Screenshot](https://github.com/ajaysoni12/MySirg-Saurabh-Shukla-Sir-C-langauge-CPP-Language-DSA-IOT-Course-Assignments-with-Solution/blob/master/SaurabhSuklaSirg.jpg)
-
-
-# MySirg-Saurabh-Shukla-Sir-C-langauge-CPP-Language-DSA-IOT-Course-Assignments-with-Solutions
-
-
-Here, i upload MySirg Course "C,C++,DSA with IOT" Assignments And there solutions. 
 
 
 
-<h5> More than "600+" question cover in this course. </h5>
+![App Screenshot](D:\App Development\App Development Project\LoginUIDesign)
 
-<h3>Thnak-you So much Saurabh Sir 🤗</h3>
+
+
+
+
+
+
+
+
+
+
+Simple Login App
+
+This is a java based simple login app which have simple entry email and password. 
+
+One of the first simple apps i created while on my journey to learn android app development. 
+
+Here, I work on User_Interface of Android Apps. 
