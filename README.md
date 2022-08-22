@@ -1,22 +1,6 @@
-
-
-
-![App Screenshot](D:\App Development\App Development Project\LoginUIDesign)
-
-
-
-
-
-
-
-
-
-
-
-Simple Login App
-
-This is a java based simple login app which have simple entry email and password. 
-
-One of the first simple apps i created while on my journey to learn android app development. 
-
-Here, I work on User_Interface of Android Apps. 
+<h2>Saurabh Sukla Sir(MySirg)</h2>
+Here I upload all assignment solution of C,CPP, DSA, IOT bootcamp course.
+<br>
+Also upload more than 800+ assignment questions with solutions. 
+<br>
+Thank-you Saurabh Sukla sir. 
