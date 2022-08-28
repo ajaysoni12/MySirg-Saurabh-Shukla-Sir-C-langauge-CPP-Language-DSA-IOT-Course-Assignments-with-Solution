@@ -2,6 +2,7 @@
 #include <string.h>
 #include <conio.h>
 #include <time.h>
+#include <stdlib.h>
 using namespace std;
 
 // work on this matrix
@@ -773,6 +774,8 @@ int main()
         cout << "THANKU, FOR VISITING THE GAME, VISIT AGAIN!\nHAVE A GOOD DAY/NIGHT";
         exit(0);
     }
+
+
 
     return 0;
 }
