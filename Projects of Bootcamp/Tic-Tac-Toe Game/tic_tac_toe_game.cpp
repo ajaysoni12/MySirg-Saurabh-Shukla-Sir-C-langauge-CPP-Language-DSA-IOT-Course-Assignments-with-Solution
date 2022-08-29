@@ -32,7 +32,7 @@ int computer_win();
 int main();
 int check_exist(int);
 
-int markingPlace(int markPlace)
+int markingPlace(int markPlace, int check)
 {
     int i, j, flag = 0;
     static char ch = 'X';
@@ -58,6 +58,10 @@ int markingPlace(int markPlace)
     {
         cout << "\n\tOOPS!, YOU LOOOSE YOUR MOVE!, BECUASE YOUR MARK PLACE IS ALREADY TAKEN!";
         cout << "\nPRESS ANY KEY TO CONTINUE...";
+        if (check)
+            ch = 'X';
+        else
+            check = 'O';
         getch();
         return 1;
     }
@@ -117,7 +121,7 @@ int markingPlaceEvilCom(int markPlace)
             {
                 matrix[i][j] = 'X';
                 flag = 1;
-                if (!checkedEvilCom())
+                if (checkedEvilCom())
                 {
                     while (1)
                     {
@@ -136,7 +140,6 @@ int markingPlaceEvilCom(int markPlace)
         if (check)
             break;
     }
-
     if (flag)
         return 1;
     return 0;
@@ -145,9 +148,10 @@ int markingPlaceEvilCom(int markPlace)
 int winGame()
 {
     int i, j;
+    int countX, countO;
     for (int i = 0; i < 3; i++)
     {
-        int countX = 0, countO = 0;
+        countX = 0, countO = 0;
         for (j = 0; j < 3; j++)
         {
             if (matrix[i][j] == 'X')
@@ -160,9 +164,10 @@ int winGame()
         if (countX == 3)
             return 1;
     }
+
     for (int i = 0; i < 3; i++)
     {
-        int countX = 0, countO = 0;
+        countX = 0, countO = 0;
         for (j = 0; j < 3; j++)
         {
             if (matrix[j][i] == 'X')
@@ -175,7 +180,7 @@ int winGame()
         if (countX == 3)
             return 1;
     }
-    int countX = 0, countO = 0;
+    countX = 0, countO = 0;
     for (i = 0; i < 3; i++)
     {
         if (matrix[i][i] == 'X')
@@ -252,7 +257,7 @@ int newGame()
         cout << "\n4 - EXIT";
         cout << "\n\tENTER YOUR CHOICE: ";
         cin >> choice;
-        if (choice == 1 || choice == 2 || choice == 3)
+        if (choice == 1 || choice == 2 || choice == 3 || choice == 4)
             return choice;
         else
         {
@@ -301,7 +306,7 @@ void displayWinner(char winnerName[])
 void playWithFriend()
 {
     system("cls");
-    int markPlace, flag = 1, totalMoves = 9;
+    int markPlace, flag = 1, totalMoves = 9, check = 1;
     char firstPlayerName[20], secondPlayerName[20];
     cout << "\n\n\t----PLAY WITH FIREND----\n";
     cout << "\nENTER FIRST PLAYER NAME: ";
@@ -313,25 +318,24 @@ void playWithFriend()
     while (true)
     {
         system("cls");
-        int flag = 1;
         displayPlayersName(firstPlayerName, secondPlayerName);
         displayGame();
-        if (flag)
+        if (check)
         {
             cout << "\n"
                  << firstPlayerName << ", ENTER MARKING PLACE: ";
-            flag = 0;
+            check = 0;
         }
         else
         {
             cout << "\n"
                  << secondPlayerName << ", ENTER MARKING PLACE: ";
-            flag = 1;
+            check = 1;
         }
         cin >> markPlace;
         if (markPlace >= 1 && markPlace <= 9)
         {
-            flag = markingPlace(markPlace);
+            flag = markingPlace(markPlace, check);
             int ans = winGame();
             if (ans == 1)
                 displayWinner(firstPlayerName);
@@ -347,6 +351,10 @@ void playWithFriend()
         {
             cout << "\n\tOOPS!, MATCH IS DRAW, NICE PLAY BOTH OF THE PLAYER!";
             cout << "\nPRESS ANY KEY....";
+            if (check)
+                check = 0;
+            else
+                check = 1;
             getch();
             restartTheGame();
         }
@@ -363,13 +371,6 @@ void matrixCreate()
 
 int checkedSmartCom()
 {
-    if (computer_win())
-    {
-        cout << "\nOOPS!, YOU LOSE THE GAME, SMART COMPUTER WIN THE GAME , WELL PLAYED";
-        cout << "PRESS ANY KEY...";
-        getch();
-        restartTheGame();
-    }
 
     int i, j, countX;
     for (i = 0; i < 3; i++)
@@ -424,7 +425,7 @@ int checkedSmartCom()
     {
         for (j = 0; j < 3; j++)
         {
-            if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
+            if (!(matrix[j][j] == 'X' || matrix[j][j] == 'O'))
             {
                 matrix[j][j] = 'O';
                 return 1;
@@ -449,7 +450,13 @@ int checkedSmartCom()
             }
         }
     }
-
+    if (computer_win())
+    {
+        cout << "\nOOPS!, YOU LOSE THE GAME, SMART COMPUTER WIN THE GAME , WELL PLAYED";
+        cout << "PRESS ANY KEY...";
+        getch();
+        restartTheGame();
+    }
     return 0;
 }
 
@@ -508,7 +515,7 @@ int computer_win()
     {
         for (j = 0; j < 3; j++)
         {
-            if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
+            if (!(matrix[j][j] == 'X' || matrix[j][j] == 'O'))
             {
                 matrix[j][j] = 'O';
                 return 1;
@@ -533,7 +540,6 @@ int computer_win()
             }
         }
     }
-
     return 0;
 }
 
@@ -557,7 +563,7 @@ int check_exist(int randome)
 void playWithSmartComputer()
 {
     system("cls");
-    int markPlace, flag = 1, totalMoves = 5;
+    int markPlace, flag = 1, totalMoves = 5, check = 1;
     char firstPlayerName[20], secondPlayerName[20];
     cout << "\n\n\t----PLAY WITH SMART COMPUTER----\n";
     cout << "\nENTER PLAYER NAME: ";
@@ -568,7 +574,6 @@ void playWithSmartComputer()
     while (true)
     {
         system("cls");
-        int flag;
         displayPlayersName(firstPlayerName, secondPlayerName);
         displayGame();
         cout << "\n"
@@ -601,7 +606,7 @@ void playWithSmartComputer()
 void playWithEvilComputer()
 {
     system("cls");
-    int markPlace, flag = 1, totalMoves = 5;
+    int markPlace, flag = 1, totalMoves = 5, check = 1;
     char firstPlayerName[20], secondPlayerName[20];
     cout << "\n\n\t----PLAY WITH EVIL COMPUTER----\n";
     cout << "\nENTER PLAYER NAME: ";
@@ -612,7 +617,6 @@ void playWithEvilComputer()
     while (true)
     {
         system("cls");
-        int flag;
         displayPlayersName(firstPlayerName, secondPlayerName);
         displayGame();
         cout << "\n"
@@ -692,7 +696,7 @@ int checkedEvilCom()
         }
     }
 
-    for (int i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++)
     {
         countX = 0;
         for (j = 0; j < 3; j++)
@@ -735,7 +739,7 @@ int checkedEvilCom()
     for (i = 0, j = 2; i < 3; i++, j--)
     {
         if (matrix[i][j] == 'X')
-            flag = 1;
+            countX++;
     }
     if (countX == 2)
     {
@@ -748,9 +752,10 @@ int checkedEvilCom()
             }
         }
     }
+
     if (flag)
-        return 1;
-    return 0;
+        return 0;
+    return 1;
 }
 
 int main()
@@ -774,8 +779,6 @@ int main()
         cout << "THANKU, FOR VISITING THE GAME, VISIT AGAIN!\nHAVE A GOOD DAY/NIGHT";
         exit(0);
     }
-
-
 
     return 0;
 }
