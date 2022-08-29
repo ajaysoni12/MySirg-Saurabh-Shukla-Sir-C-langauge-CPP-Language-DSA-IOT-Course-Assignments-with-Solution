@@ -3,210 +3,50 @@
 #include <conio.h>
 #include <time.h>
 #include <stdlib.h>
+#include <windows.h>
 using namespace std;
 
 // work on this matrix
 int matrix[3][3];
 
-// function declation
-
-int markingPlace(int);
-int markingPlaceSmartCom(int);
-int markingPlaceEvilCom(int);
-void playWithFriend();
-void playWithSmartCom();
-void playWithEvilCom();
-int winGame();
+// function declration
+int main();
 void ticTacToeGameRules();
-void gameDiscription();
-int newGame();
+void matrixCreate();
 void displayPlayersName(char[], char[]);
 void displayGame();
-void restartTheGame();
-void displayWinner(char[]);
-void gameDiscription();
-void matrixCreate();
-int checkedSmartCom();
-int checkedEvilCom();
-int computer_win();
-int main();
 int check_exist(int);
+char gameWinner(char);
+void restartTheGame();
+int newGame();
+void markingPlaceFriend(int, int, char[], char[]);
+void markingPlaceSmartComputer(int, char[], char[], int);
+void markingPlaceEvilComputer(int, char[], char[], int &);
+void playWithFriend();
+void playWithSmartComputer();
+void playWithEvilComputer();
 
-int markingPlace(int markPlace, int check)
+int newGame()
 {
-    int i, j, flag = 0;
-    static char ch = 'X';
-    for (i = 0; i < 3; i++)
+    while (1)
     {
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[i][j] == markPlace && ch == 'X') // user markplace find
-            {
-                matrix[i][j] = ch;
-                ch = 'O';
-                flag = 1;
-            }
-            else if (matrix[i][j] == markPlace && ch == 'O')
-            {
-                matrix[i][j] = ch;
-                ch = 'X';
-                flag = 1;
-            }
-        }
-    }
-    if (flag == 0)
-    {
-        cout << "\n\tOOPS!, YOU LOOOSE YOUR MOVE!, BECUASE YOUR MARK PLACE IS ALREADY TAKEN!";
-        cout << "\nPRESS ANY KEY TO CONTINUE...";
-        if (check)
-            ch = 'X';
+        system("cls");
+        int choice;
+        cout << "\n\t-----NEW GAME-----";
+        cout << "\n\n1 - PLAY WITH SMART COMPUTER";
+        cout << "\n2 - PLAY WITH EVIL COMPUTER";
+        cout << "\n3 - PLAY WITH FRIEND";
+        cout << "\n4 - EXIT";
+        cout << "\n\tENTER YOUR CHOICE: ";
+        cin >> choice;
+        if (choice == 1 || choice == 2 || choice == 3 || choice == 4)
+            return choice;
         else
-            check = 'O';
-        getch();
-        return 1;
-    }
-    return 0;
-}
-
-int markingPlaceSmartCom(int markPlace)
-{
-    int i, j, flag = 0, check = 0;
-    srand(time(0));
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < 3; j++)
         {
-            if (matrix[i][j] == markPlace)
-            {
-                matrix[i][j] = 'X';
-                flag = 1;
-                if (!checkedSmartCom())
-                {
-                    while (1)
-                    {
-                        int random = rand() % 9 + 1;
-                        if (check_exist(random))
-                        {
-                            check = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (check)
-                break;
+            cout << "\n\tINVALID INPUT... TRY AGAIN!\nPRESS ANY KEY..";
+            getch();
         }
-        if (check)
-            break;
     }
-    if (flag == 0)
-    {
-        cout << "\n\tOOPS!, YOU LOOOSE YOUR MOVE!, BECUASE YOUR MARK PLACE IS ALREADY TAKEN!";
-        cout << "\nPRESS ANY KEY TO CONTINUE...";
-        getch();
-        return 1;
-    }
-    return 0;
-}
-
-int markingPlaceEvilCom(int markPlace)
-{
-    int i, j, flag = 0, check = 0;
-    srand(time(0));
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[i][j] == markPlace)
-            {
-                matrix[i][j] = 'X';
-                flag = 1;
-                if (checkedEvilCom())
-                {
-                    while (1)
-                    {
-                        int random = rand() % 9 + 1;
-                        if (check_exist(random))
-                        {
-                            check = 1;
-                            break;
-                        }
-                    }
-                }
-            }
-            if (check)
-                break;
-        }
-        if (check)
-            break;
-    }
-    if (flag)
-        return 1;
-    return 0;
-}
-
-int winGame()
-{
-    int i, j;
-    int countX, countO;
-    for (int i = 0; i < 3; i++)
-    {
-        countX = 0, countO = 0;
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[i][j] == 'X')
-                countX++;
-            if (matrix[i][j] == 'O')
-                countO++;
-        }
-        if (countO == 3)
-            return 2;
-        if (countX == 3)
-            return 1;
-    }
-
-    for (int i = 0; i < 3; i++)
-    {
-        countX = 0, countO = 0;
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[j][i] == 'X')
-                countX++;
-            if (matrix[j][i] == 'O')
-                countO++;
-        }
-        if (countO == 3)
-            return 2;
-        if (countX == 3)
-            return 1;
-    }
-    countX = 0, countO = 0;
-    for (i = 0; i < 3; i++)
-    {
-        if (matrix[i][i] == 'X')
-            countX++;
-        if (matrix[i][i] == 'O')
-            countO++;
-    }
-    if (countO == 3)
-        return 2;
-    if (countX == 3)
-        return 1;
-
-    countX = 0, countO = 0;
-    for (i = 0, j = 2; i < 3; i++, j--)
-    {
-        if (matrix[i][j] == 'X')
-            countX++;
-        if (matrix[i][j] == 'O')
-            countO++;
-    }
-    if (countO == 3)
-        return 2;
-    if (countX == 3)
-        return 1;
-
-    return 0;
 }
 
 void ticTacToeGameRules()
@@ -244,27 +84,12 @@ void gameDiscription()
     }
 }
 
-int newGame()
+void matrixCreate()
 {
-    while (1)
-    {
-        system("cls");
-        int choice;
-        cout << "\n\t-----NEW GAME-----";
-        cout << "\n\n1 - PLAY WITH SMART COMPUTER";
-        cout << "\n2 - PLAY WITH EVIL COMPUTER";
-        cout << "\n3 - PLAY WITH FRIEND";
-        cout << "\n4 - EXIT";
-        cout << "\n\tENTER YOUR CHOICE: ";
-        cin >> choice;
-        if (choice == 1 || choice == 2 || choice == 3 || choice == 4)
-            return choice;
-        else
-        {
-            cout << "\n\tINVALID INPUT... TRY AGAIN!\nPRESS ANY KEY..";
-            getch();
-        }
-    }
+    int i, j, count = 0;
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            matrix[i][j] = ++count;
 }
 
 void displayPlayersName(char firstName[], char secondName[])
@@ -292,21 +117,101 @@ void displayGame()
     }
 }
 
-void restartTheGame();
-
-void displayWinner(char winnerName[])
+int check_exist(int randome)
 {
-    displayGame();
-    cout << "\n\nCONGRAULATION! " << winnerName << ", WELL DONE!, YOU PLAY GREAT!";
-    cout << "\nPRESS ANY KEY...";
-    getch();
-    restartTheGame();
+    int i, j;
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            if (matrix[i][j] == randome)
+                return 1;
+    return 0;
+}
+
+char gameWinner(char markSign)
+{
+    if (matrix[0][0] == matrix[0][1] && matrix[0][0] == matrix[0][2]) // first row
+        return markSign;
+    else if (matrix[1][0] == matrix[1][1] && matrix[1][0] == matrix[1][2]) // second row
+        return markSign;
+    else if (matrix[2][0] == matrix[2][1] && matrix[2][0] == matrix[2][2]) // third row
+        return markSign;
+    else if (matrix[0][0] == matrix[1][0] && matrix[0][0] == matrix[2][0]) // first col
+        return markSign;
+    else if (matrix[0][1] == matrix[1][1] && matrix[0][1] == matrix[2][1]) // second col
+        return markSign;
+    else if (matrix[0][2] == matrix[1][2] && matrix[0][2] == matrix[2][2]) // third row
+        return markSign;
+    else if (matrix[0][0] == matrix[1][1] && matrix[0][0] == matrix[2][2]) // left diagonal
+        return markSign;
+    else if (matrix[0][2] == matrix[1][1] && matrix[0][2] == matrix[2][0]) // right diagonal
+        return markSign;
+
+    return 'N';
+}
+
+int main();
+
+void restartTheGame()
+{
+    while (1)
+    {
+        system("cls");
+        int choice;
+        cout << "\n\tDO YOU WANT TO PLAY AGAIN!\n";
+        cout << "1 - YES" << endl;
+        cout << "2 - NO" << endl;
+        cout << "\tENTER YOUR CHOICE: ";
+        cin >> choice;
+        if (choice == 1)
+            main();
+        else if (choice == 2)
+        {
+            cout << "THANKU, FOR PLAYING THE GAME, VISIT AGAIN!\nHAVE A GOOD DAY/NIGHT";
+            exit(0);
+        }
+        else
+        {
+            cout << "\n\tINVALID INPUT.... TRY AGAIN!";
+            Sleep(1000);
+        }
+    }
+}
+
+void markingPlaceFriend(int markPlace, int alternate, char firstPlayerName[], char secondPlayerName[])
+{
+    char markingSign = alternate ? 'X' : 'O';
+    int i, j;
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            if (matrix[i][j] == markPlace)
+                matrix[i][j] = markingSign;
+
+    char gameWinnerChar = gameWinner(markingSign);
+
+    if (gameWinnerChar == 'X')
+    {
+        system("cls");
+        displayGame();
+        cout << "\n\tCONGRAULATION--!, " << firstPlayerName << " YOU WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
+    }
+    else if (gameWinnerChar == 'O')
+    {
+        system("cls");
+        displayGame();
+        cout << "\n\tCONGRAULATION--!, " << secondPlayerName << " YOU WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
+    }
 }
 
 void playWithFriend()
 {
     system("cls");
-    int markPlace, flag = 1, totalMoves = 9, check = 1;
+    int markPlace, flag = 1, totalMoves = 9, alternate = 1;
     char firstPlayerName[20], secondPlayerName[20];
     cout << "\n\n\t----PLAY WITH FIREND----\n";
     cout << "\nENTER FIRST PLAYER NAME: ";
@@ -315,447 +220,677 @@ void playWithFriend()
     cout << "\nENTER SECOND PLAYER NAME: ";
     gets(secondPlayerName);
 
-    while (true)
+    while (1)
     {
-        system("cls");
-        displayPlayersName(firstPlayerName, secondPlayerName);
-        displayGame();
-        if (check)
+        if (alternate == 1)
         {
-            cout << "\n"
-                 << firstPlayerName << ", ENTER MARKING PLACE: ";
-            check = 0;
+            while (1)
+            {
+                system("cls");
+                displayPlayersName(firstPlayerName, secondPlayerName);
+                displayGame();
+                cout << "\n"
+                     << firstPlayerName << ", ENTER MARKING PLACE: ";
+                cin >> markPlace;
+                if ((markPlace >= 1 && markPlace <= 9) && check_exist(markPlace))
+                {
+                    alternate = 0;
+                    break;
+                }
+                else
+                {
+                    cout << "\n\tINVALID INPUT OR ALREADY TAKE! TRY AGAIN....\nPRESS ANY KEY FOR CONTINUE....";
+                    getch();
+                }
+            }
         }
         else
         {
-            cout << "\n"
-                 << secondPlayerName << ", ENTER MARKING PLACE: ";
-            check = 1;
-        }
-        cin >> markPlace;
-        if (markPlace >= 1 && markPlace <= 9)
-        {
-            flag = markingPlace(markPlace, check);
-            int ans = winGame();
-            if (ans == 1)
-                displayWinner(firstPlayerName);
-            else if (ans == 2)
-                displayWinner(secondPlayerName);
-        }
-        else
-        {
-            cout << "\n\tINVALID MARKING PLACE... TRY AGAIN!" << endl;
+            while (1)
+            {
+                system("cls");
+                displayPlayersName(firstPlayerName, secondPlayerName);
+                displayGame();
+                cout << "\n"
+                     << secondPlayerName << ", ENTER MARKING PLACE: ";
+                cin >> markPlace;
+                if ((markPlace >= 1 && markPlace <= 9) && check_exist(markPlace))
+                {
+                    alternate = 1;
+                    break;
+                }
+                else
+                {
+                    cout << "\n\tINVALID INPUT OR ALREADY TAKE! TRY AGAIN....\nPRESS ANY KEY FOR CONTINUE....";
+                    getch();
+                }
+            }
         }
 
-        if (flag == 0 && --totalMoves == 0)
+        markingPlaceFriend(markPlace, !(alternate), firstPlayerName, secondPlayerName);
+
+        if (--totalMoves == 0)
         {
-            cout << "\n\tOOPS!, MATCH IS DRAW, NICE PLAY BOTH OF THE PLAYER!";
-            cout << "\nPRESS ANY KEY....";
-            if (check)
-                check = 0;
-            else
-                check = 1;
+            system("cls");
+            displayPlayersName(firstPlayerName, secondPlayerName);
+            displayGame();
+            cout << "\n\tOOPS!, MATCH IS DRAW..!!\nPRESS ANY KEY.......";
             getch();
             restartTheGame();
         }
     }
 }
 
-void matrixCreate()
+int isTwo()
 {
-    int i, j, count = 0;
-    for (i = 0; i < 3; i++)
-        for (j = 0; j < 3; j++)
-            matrix[i][j] = ++count;
+    if ((matrix[0][0] == matrix[0][1]) || (matrix[0][0] == matrix[0][2]) || (matrix[0][1] == matrix[0][2])) // first row
+        return 1;
+    else if ((matrix[1][0] == matrix[1][1]) || (matrix[1][0] == matrix[1][2]) || (matrix[1][1] == matrix[1][2])) // second row
+        return 1;
+    else if ((matrix[2][0] == matrix[2][1]) || (matrix[2][0] == matrix[2][2]) || (matrix[2][1] == matrix[2][2])) // third row
+        return 1;
+    else if ((matrix[0][0] == matrix[1][0]) || (matrix[0][0] == matrix[2][0]) || (matrix[1][0] == matrix[2][0])) // first col
+        return 1;
+    else if ((matrix[0][1] == matrix[1][1]) || (matrix[0][1] == matrix[2][1]) || (matrix[1][1] == matrix[2][1])) // second col
+        return 1;
+    else if ((matrix[0][2] == matrix[1][2]) || (matrix[0][2] == matrix[2][2]) || (matrix[1][2] == matrix[2][2])) // third row
+        return 1;
+    else if ((matrix[0][0] == matrix[1][1]) || (matrix[0][0] == matrix[2][2]) || (matrix[1][1] == matrix[2][2])) // left diagonal
+        return 1;
+    else if ((matrix[0][2] == matrix[1][1]) || (matrix[0][2] == matrix[2][0]) || (matrix[1][1] == matrix[2][0])) // right diagonal
+        return 1;
+    
+    return 0;
 }
 
-int checkedSmartCom()
+void markingPlaceSmartComputer(int markPlace, char firstPlayerName[], char secondPlayerName[], int totalMoves)
 {
-
-    int i, j, countX;
+    srand(time(0));
+    int i, j;
     for (i = 0; i < 3; i++)
-    {
-        countX = 0;
         for (j = 0; j < 3; j++)
-        {
-            if (matrix[i][j] == 'X')
-                countX++;
-        }
-        if (countX == 2)
-        {
-            for (j = 0; j < 3; j++)
-            {
-                if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
-                {
-                    matrix[i][j] = 'O';
-                    return 1;
-                }
-            }
-        }
-    }
+            if (matrix[i][j] == markPlace)
+                matrix[i][j] = 'X';
 
-    for (int i = 0; i < 3; i++)
+    if (gameWinner('X') == 'X')
     {
-        countX = 0;
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[j][i] == 'X')
-                countX++;
-        }
-        if (countX == 2)
-        {
-            for (j = 0; j < 3; j++)
-            {
-                if (!(matrix[j][i] == 'X' || matrix[j][i] == 'O'))
-                {
-                    matrix[j][i] = 'O';
-                    return 1;
-                }
-            }
-        }
-    }
-
-    countX = 0;
-    for (i = 0; i < 3; i++)
-    {
-        if (matrix[i][i] == 'X')
-            countX++;
-    }
-    if (countX == 2)
-    {
-        for (j = 0; j < 3; j++)
-        {
-            if (!(matrix[j][j] == 'X' || matrix[j][j] == 'O'))
-            {
-                matrix[j][j] = 'O';
-                return 1;
-            }
-        }
-    }
-
-    countX = 0;
-    for (i = 0, j = 2; i < 3; i++, j--)
-    {
-        if (matrix[i][j] == 'X')
-            countX++;
-    }
-    if (countX == 2)
-    {
-        for (i = 0, j = 2; j < 3; i++, j--)
-        {
-            if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
-            {
-                matrix[i][j] = 'O';
-                return 1;
-            }
-        }
-    }
-    if (computer_win())
-    {
-        cout << "\nOOPS!, YOU LOSE THE GAME, SMART COMPUTER WIN THE GAME , WELL PLAYED";
-        cout << "PRESS ANY KEY...";
+        system("cls");
+        displayGame();
+        cout << "\n\tCONGRAULATION--!, " << firstPlayerName << " YOU WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
         getch();
         restartTheGame();
     }
-    return 0;
-}
 
-int computer_win()
-{
-    int i, j, countO;
-    for (i = 0; i < 3; i++)
+    // for win
+    // for first row
+    if (matrix[0][0] == 'O' && matrix[0][1] == 'O' && matrix[0][2] != 'X')
+        matrix[0][2] = 'O';
+    else if (matrix[0][0] == 'O' && matrix[0][2] == 'O' && matrix[0][1] != 'X')
+        matrix[0][1] = 'O';
+    else if (matrix[0][1] == 'O' && matrix[0][2] == 'O' && matrix[0][0] != 'X')
+        matrix[0][0] = 'O';
+
+    // for second row
+    else if (matrix[1][0] == 'O' && matrix[1][1] == 'O' && matrix[1][2] != 'X')
+        matrix[1][2] = 'O';
+    else if (matrix[1][0] == 'O' && matrix[1][2] == 'O' && matrix[1][1] != 'X')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'O' && matrix[1][2] == 'O' && matrix[1][0] != 'X')
+        matrix[1][0] = 'O';
+
+    // for third row
+    else if (matrix[2][0] == 'O' && matrix[2][1] == 'O' && matrix[2][2] != 'X')
+        matrix[2][2] = 'O';
+    else if (matrix[2][0] == 'O' && matrix[2][2] == 'O' && matrix[2][1] != 'X')
+        matrix[2][1] = 'O';
+    else if (matrix[2][1] == 'O' && matrix[2][2] == 'O' && matrix[2][0] != 'X')
+        matrix[2][0] = 'O';
+
+    // for first col
+    else if (matrix[0][0] == 'O' && matrix[1][0] == 'O' && matrix[2][0] != 'X')
+        matrix[2][0] = 'O';
+    else if (matrix[0][0] == 'O' && matrix[2][0] == 'O' && matrix[1][0] != 'X')
+        matrix[1][0] = 'O';
+    else if (matrix[1][0] == 'O' && matrix[2][0] == 'O' && matrix[0][0] != 'X')
+        matrix[0][0] = 'O';
+
+    // for second col
+    else if (matrix[0][1] == 'O' && matrix[1][1] == 'O' && matrix[2][1] != 'X')
+        matrix[2][1] = 'O';
+    else if (matrix[0][1] == 'O' && matrix[2][1] == 'O' && matrix[1][1] != 'X')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'O' && matrix[2][1] == 'O' && matrix[0][1] != 'X')
+        matrix[0][1] = 'O';
+
+    // for third col
+    else if (matrix[0][2] == 'O' && matrix[1][2] == 'O' && matrix[2][2] != 'X')
+        matrix[2][2] = 'O';
+    else if (matrix[0][2] == 'O' && matrix[2][2] == 'O' && matrix[1][2] != 'X')
+        matrix[1][2] = 'O';
+    else if (matrix[1][2] == 'O' && matrix[2][2] == 'O' && matrix[0][2] != 'X')
+        matrix[0][2] = 'O';
+
+    // for left diagonal
+    else if (matrix[0][0] == 'O' && matrix[1][1] == 'O' && matrix[2][2] != 'X')
+        matrix[2][2] = 'O';
+    else if (matrix[0][0] == 'O' && matrix[2][2] == 'O' && matrix[1][1] != 'X')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'O' && matrix[2][2] == 'O' && matrix[0][0] != 'X')
+        matrix[0][0] = 'O';
+
+    // for right diagonal
+    else if (matrix[0][2] == 'O' && matrix[1][1] == 'O' && matrix[2][0] != 'X')
+        matrix[2][0] = 'O';
+    else if (matrix[0][2] == 'O' && matrix[2][0] == 'O' && matrix[1][1] != 'X')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'O' && matrix[2][0] == 'O' && matrix[0][2] != 'X')
+        matrix[0][2] = 'O';
+
+    // for defend
+    // for first row
+    else if (matrix[0][0] == 'X' && matrix[0][1] == 'X' && matrix[0][2] != 'O')
+        matrix[0][2] = 'O';
+    else if (matrix[0][0] == 'X' && matrix[0][2] == 'X' && matrix[0][1] != 'O')
+        matrix[0][1] = 'O';
+    else if (matrix[0][1] == 'X' && matrix[0][2] == 'X' && matrix[0][0] != 'O')
+        matrix[0][0] = 'O';
+
+    // for second row
+    else if (matrix[1][0] == 'X' && matrix[1][1] == 'X' && matrix[1][2] != 'O')
+        matrix[1][2] = 'O';
+    else if (matrix[1][0] == 'X' && matrix[1][2] == 'X' && matrix[1][1] != 'O')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'X' && matrix[1][2] == 'X' && matrix[1][0] != 'O')
+        matrix[1][0] = 'O';
+
+    // for third row
+    else if (matrix[2][0] == 'X' && matrix[2][1] == 'X' && matrix[2][2] != 'O')
+        matrix[2][2] = 'O';
+    else if (matrix[2][0] == 'X' && matrix[2][2] == 'X' && matrix[2][1] != 'O')
+        matrix[2][1] = 'O';
+    else if (matrix[2][1] == 'X' && matrix[2][2] == 'X' && matrix[2][0] != 'O')
+        matrix[2][0] = 'O';
+
+    // for first col
+    else if (matrix[0][0] == 'X' && matrix[1][0] == 'X' && matrix[2][0] != 'O')
+        matrix[2][0] = 'O';
+    else if (matrix[0][0] == 'X' && matrix[2][0] == 'X' && matrix[1][0] != 'O')
+        matrix[1][0] = 'O';
+    else if (matrix[1][0] == 'X' && matrix[2][0] == 'X' && matrix[0][0] != 'O')
+        matrix[0][0] = 'O';
+
+    // for second col
+    else if (matrix[0][1] == 'X' && matrix[1][1] == 'X' && matrix[2][1] != 'O')
+        matrix[2][1] = 'O';
+    else if (matrix[0][1] == 'X' && matrix[2][1] == 'X' && matrix[1][1] != 'O')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'X' && matrix[2][1] == 'X' && matrix[0][1] != 'O')
+        matrix[0][1] = 'O';
+
+    // for third row
+    else if (matrix[0][2] == 'X' && matrix[1][2] == 'X' && matrix[2][2] != 'O')
+        matrix[2][2] = 'O';
+    else if (matrix[0][2] == 'X' && matrix[2][2] == 'X' && matrix[1][2] != 'O')
+        matrix[1][2] = 'O';
+    else if (matrix[1][2] == 'X' && matrix[2][2] == 'X' && matrix[0][2] != 'O')
+        matrix[0][2] = 'O';
+
+    // for left diagonal
+    else if (matrix[0][0] == 'X' && matrix[1][1] == 'X' && matrix[2][2] != 'O')
+        matrix[2][2] = 'O';
+    else if (matrix[0][0] == 'X' && matrix[2][2] == 'X' && matrix[1][1] != 'O')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'X' && matrix[2][2] == 'X' && matrix[0][0] != 'O')
+        matrix[0][0] = 'O';
+
+    // for right diagonal
+    else if (matrix[0][2] == 'X' && matrix[1][1] == 'X' && matrix[2][0] != 'O')
+        matrix[2][0] = 'O';
+    else if (matrix[0][2] == 'X' && matrix[2][0] == 'X' && matrix[1][1] != 'O')
+        matrix[1][1] = 'O';
+    else if (matrix[1][1] == 'X' && matrix[2][0] == 'X' && matrix[0][2] != 'O')
+        matrix[0][2] = 'O';
+    else
     {
-        countO = 0;
-        for (j = 0; j < 3; j++)
+        if (totalMoves <= 0)
         {
-            if (matrix[i][j] == 'O')
-                countO++;
+            system("cls");
+            displayPlayersName(firstPlayerName, secondPlayerName);
+            displayGame();
+            cout << "\n\tOOPS...!! MATCH IS DRAWN...\nPRESS ANY KEY...";
+            getch();
+            restartTheGame();
         }
-        if (countO == 2)
+        else
         {
-            for (j = 0; j < 3; j++)
+            while (1)
             {
-                if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
+                int random = rand() % 9 + 1;
+                if (check_exist(random))
                 {
-                    matrix[i][j] = 'O';
-                    return 1;
+                    for (int i = 0; i < 3; i++)
+                        for (int j = 0; j < 3; j++)
+                            if (matrix[i][j] == random)
+                                matrix[i][j] = 'O';
+
+                    break;
                 }
             }
         }
     }
-
-    for (int i = 0; i < 3; i++)
+    if (gameWinner('O') == 'O')
     {
-        countO = 0;
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[j][i] == 'O')
-                countO++;
-        }
-        if (countO == 2)
-        {
-            for (j = 0; j < 3; j++)
-            {
-                if (!(matrix[j][i] == 'X' || matrix[j][i] == 'O'))
-                {
-                    matrix[j][i] = 'O';
-                    return 1;
-                }
-            }
-        }
+        system("cls");
+        displayGame();
+        cout << "\n\tYOU LOSE THE GAME--!, " << secondPlayerName << " WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
     }
-
-    countO = 0;
-    for (i = 0; i < 3; i++)
-    {
-        if (matrix[i][i] == 'O')
-            countO++;
-    }
-    if (countO == 2)
-    {
-        for (j = 0; j < 3; j++)
-        {
-            if (!(matrix[j][j] == 'X' || matrix[j][j] == 'O'))
-            {
-                matrix[j][j] = 'O';
-                return 1;
-            }
-        }
-    }
-
-    countO = 0;
-    for (i = 0, j = 2; i < 3; i++, j--)
-    {
-        if (matrix[i][j] == 'O')
-            countO++;
-    }
-    if (countO == 2)
-    {
-        for (i = 0, j = 2; j < 3; i++, j--)
-        {
-            if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
-            {
-                matrix[i][j] = 'O';
-                return 1;
-            }
-        }
-    }
-    return 0;
-}
-
-int check_exist(int randome)
-{
-    int i, j;
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[i][j] == randome)
-            {
-                matrix[i][j] = 'O';
-                return 1;
-            }
-        }
-    }
-    return 0;
 }
 
 void playWithSmartComputer()
 {
     system("cls");
-    int markPlace, flag = 1, totalMoves = 5, check = 1;
+    int markPlace, totalMoves = 9;
     char firstPlayerName[20], secondPlayerName[20];
     cout << "\n\n\t----PLAY WITH SMART COMPUTER----\n";
     cout << "\nENTER PLAYER NAME: ";
     cin.ignore();
     gets(firstPlayerName);
-    strcpy(secondPlayerName, "SMART COMPUTER");
+    strcpy(secondPlayerName, "SMART COMPUTER ");
 
-    while (true)
+    while (1)
+    {
+        while (1)
+        {
+            system("cls");
+            displayPlayersName(firstPlayerName, secondPlayerName);
+            displayGame();
+            cout << "\n"
+                 << firstPlayerName << ", ENTER MARKING PLACE: ";
+            cin >> markPlace;
+            if ((markPlace >= 1 && markPlace <= 9) && check_exist(markPlace))
+                break;
+            else
+            {
+                cout << "\n\tINVALID INPUT OR ALREADY TAKE! TRY AGAIN....\nPRESS ANY KEY FOR CONTINUE....";
+                getch();
+            }
+        }
+        totalMoves -= 2;
+        markingPlaceSmartComputer(markPlace, firstPlayerName, secondPlayerName, totalMoves);
+    }
+}
+
+void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char secondPlayerName[], int &totalMoves)
+{
+    srand(time(0));
+    int i, j;
+    for (i = 0; i < 3; i++)
+        for (j = 0; j < 3; j++)
+            if (matrix[i][j] == markPlace)
+            {
+                matrix[i][j] = 'X';
+                totalMoves--;
+            }
+
+    if (gameWinner('X') == 'X')
     {
         system("cls");
-        displayPlayersName(firstPlayerName, secondPlayerName);
         displayGame();
-        cout << "\n"
-             << firstPlayerName << ", ENTER MARKING PLACE: ";
-        cin >> markPlace;
-        if (markPlace >= 1 && markPlace <= 9)
-        {
-            flag = markingPlaceSmartCom(markPlace);
-            int ans = winGame();
-            if (ans == 1)
-                displayWinner(firstPlayerName);
-            else if (ans == 2)
-                displayWinner(secondPlayerName);
-        }
-        else
-        {
-            cout << "\n\tINVALID MARKING PLACE... TRY AGAIN!" << endl;
-        }
+        cout << "\n\tCONGRAULATION--!, " << firstPlayerName << " YOU WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
+    }
 
-        if (flag == 0 && --totalMoves == 0)
+    // for win
+    // for first row
+    if (matrix[0][0] == 'O' && matrix[0][1] == 'O' && matrix[0][2] != 'X')
+    {
+        matrix[0][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][0] == 'O' && matrix[0][2] == 'O' && matrix[0][1] != 'X')
+    {
+        matrix[0][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][1] == 'O' && matrix[0][2] == 'O' && matrix[0][0] != 'X')
+    {
+        matrix[0][0] = 'O';
+        totalMoves--;
+    }
+
+    // for second row
+    if (matrix[1][0] == 'O' && matrix[1][1] == 'O' && matrix[1][2] != 'X')
+    {
+        matrix[1][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][0] == 'O' && matrix[1][2] == 'O' && matrix[1][1] != 'X')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'O' && matrix[1][2] == 'O' && matrix[1][0] != 'X')
+    {
+        matrix[1][0] = 'O';
+        totalMoves--;
+    }
+
+    // for third row
+    if (matrix[2][0] == 'O' && matrix[2][1] == 'O' && matrix[2][2] != 'X')
+    {
+        matrix[2][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[2][0] == 'O' && matrix[2][2] == 'O' && matrix[2][1] != 'X')
+    {
+        matrix[2][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[2][1] == 'O' && matrix[2][2] == 'O' && matrix[2][0] != 'X')
+    {
+        matrix[2][0] = 'O';
+        totalMoves--;
+    }
+
+    // for first col
+    if (matrix[0][0] == 'O' && matrix[1][0] == 'O' && matrix[2][0] != 'X')
+    {
+        matrix[2][0] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][0] == 'O' && matrix[2][0] == 'O' && matrix[1][0] != 'X')
+    {
+        matrix[1][0] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][0] == 'O' && matrix[2][0] == 'O' && matrix[0][0] != 'X')
+    {
+        matrix[0][0] = 'O';
+        totalMoves--;
+    }
+
+    // for second col
+    if (matrix[0][1] == 'O' && matrix[1][1] == 'O' && matrix[2][1] != 'X')
+    {
+        matrix[2][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][1] == 'O' && matrix[2][1] == 'O' && matrix[1][1] != 'X')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'O' && matrix[2][1] == 'O' && matrix[0][1] != 'X')
+    {
+        matrix[0][1] = 'O';
+        totalMoves--;
+    }
+
+    // for third col
+    if (matrix[0][2] == 'O' && matrix[1][2] == 'O' && matrix[2][2] != 'X')
+    {
+        matrix[2][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][2] == 'O' && matrix[2][2] == 'O' && matrix[1][2] != 'X')
+    {
+        matrix[1][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][2] == 'O' && matrix[2][2] == 'O' && matrix[0][2] != 'X')
+    {
+        matrix[0][2] = 'O';
+        totalMoves--;
+    }
+
+    // for left diagonal
+    if (matrix[0][0] == 'O' && matrix[1][1] == 'O' && matrix[2][2] != 'X')
+    {
+        matrix[2][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][0] == 'O' && matrix[2][2] == 'O' && matrix[1][1] != 'X')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'O' && matrix[2][2] == 'O' && matrix[0][0] != 'X')
+    {
+        matrix[0][0] = 'O';
+        totalMoves--;
+    }
+
+    // for right diagonal
+    if (matrix[0][2] == 'O' && matrix[1][1] == 'O' && matrix[2][0] != 'X')
+    {
+        matrix[2][0] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][2] == 'O' && matrix[2][0] == 'O' && matrix[1][1] != 'X')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'O' && matrix[2][0] == 'O' && matrix[0][2] != 'X')
+    {
+        matrix[0][2] = 'O';
+        totalMoves--;
+    }
+
+    // for defend
+    // for first row
+    if (matrix[0][0] == 'X' && matrix[0][1] == 'X' && matrix[0][2] != 'O')
+    {
+        matrix[0][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][0] == 'X' && matrix[0][2] == 'X' && matrix[0][1] != 'O')
+    {
+        matrix[0][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][1] == 'X' && matrix[0][2] == 'X' && matrix[0][0] != 'O')
+    {
+        matrix[0][0] = 'O';
+        totalMoves--;
+    }
+
+    // for second row
+    if (matrix[1][0] == 'X' && matrix[1][1] == 'X' && matrix[1][2] != 'O')
+    {
+        matrix[1][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][0] == 'X' && matrix[1][2] == 'X' && matrix[1][1] != 'O')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'X' && matrix[1][2] == 'X' && matrix[1][0] != 'O')
+    {
+        matrix[1][0] = 'O';
+        totalMoves--;
+    }
+
+    // for third row
+    if (matrix[2][0] == 'X' && matrix[2][1] == 'X' && matrix[2][2] != 'O')
+    {
+        matrix[2][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[2][0] == 'X' && matrix[2][2] == 'X' && matrix[2][1] != 'O')
+    {
+        matrix[2][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[2][1] == 'X' && matrix[2][2] == 'X' && matrix[2][0] != 'O')
+    {
+        matrix[2][0] = 'O';
+        totalMoves--;
+    }
+
+    // for first col
+    if (matrix[0][0] == 'X' && matrix[1][0] == 'X' && matrix[2][0] != 'O')
+    {
+        matrix[2][0] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][0] == 'X' && matrix[2][0] == 'X' && matrix[1][0] != 'O')
+    {
+        matrix[1][0] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][0] == 'X' && matrix[2][0] == 'X' && matrix[0][0] != 'O')
+    {
+        matrix[0][0] = 'O';
+        totalMoves--;
+    }
+
+    // for second col
+    if (matrix[0][1] == 'X' && matrix[1][1] == 'X' && matrix[2][1] != 'O')
+    {
+        matrix[2][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][1] == 'X' && matrix[2][1] == 'X' && matrix[1][1] != 'O')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'X' && matrix[2][1] == 'X' && matrix[0][1] != 'O')
+    {
+        matrix[0][1] = 'O';
+        totalMoves--;
+    }
+
+    // for third row
+    if (matrix[0][2] == 'X' && matrix[1][2] == 'X' && matrix[2][2] != 'O')
+    {
+        matrix[2][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][2] == 'X' && matrix[2][2] == 'X' && matrix[1][2] != 'O')
+    {
+        matrix[1][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][2] == 'X' && matrix[2][2] == 'X' && matrix[0][2] != 'O')
+    {
+        matrix[0][2] = 'O';
+        totalMoves--;
+    }
+
+    // for left diagonal
+    if (matrix[0][0] == 'X' && matrix[1][1] == 'X' && matrix[2][2] != 'O')
+    {
+        matrix[2][2] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][0] == 'X' && matrix[2][2] == 'X' && matrix[1][1] != 'O')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'X' && matrix[2][2] == 'X' && matrix[0][0] != 'O')
+    {
+        matrix[0][0] = 'O';
+        totalMoves--;
+    }
+
+    // for right diagonal
+    if (matrix[0][2] == 'X' && matrix[1][1] == 'X' && matrix[2][0] != 'O')
+    {
+        matrix[2][0] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[0][2] == 'X' && matrix[2][0] == 'X' && matrix[1][1] != 'O')
+    {
+        matrix[1][1] = 'O';
+        totalMoves--;
+    }
+    else if (matrix[1][1] == 'X' && matrix[2][0] == 'X' && matrix[0][2] != 'O')
+    {
+        matrix[0][2] = 'O';
+        totalMoves--;
+    }
+    else
+    {
+        if (totalMoves <= 0)
         {
-            cout << "\n\tOOPS!, MATCH IS DRAW, NICE PLAY BOTH OF THE PLAYER!";
-            cout << "\nPRESS ANY KEY....";
+            system("cls");
+            displayPlayersName(firstPlayerName, secondPlayerName);
+            displayGame();
+            cout << "\n\tOOPS...!! MATCH IS DRAWN...\nPRESS ANY KEY...";
             getch();
             restartTheGame();
         }
+        else
+        {
+            while (1)
+            {
+                int random = rand() % 9 + 1;
+                if (check_exist(random))
+                {
+                    for (int i = 0; i < 3; i++)
+                        for (int j = 0; j < 3; j++)
+                            if (matrix[i][j] == random)
+                            {
+                                matrix[i][j] = 'O';
+                                totalMoves--;
+                            }
+
+                    break;
+                }
+            }
+        }
+    }
+    if (gameWinner('O') == 'O')
+    {
+        system("cls");
+        displayGame();
+        cout << "\n\tYOU LOSE THE GAME--!, " << secondPlayerName << " WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
     }
 }
 
 void playWithEvilComputer()
 {
     system("cls");
-    int markPlace, flag = 1, totalMoves = 5, check = 1;
+    int markPlace, totalMoves = 9;
     char firstPlayerName[20], secondPlayerName[20];
     cout << "\n\n\t----PLAY WITH EVIL COMPUTER----\n";
     cout << "\nENTER PLAYER NAME: ";
     cin.ignore();
     gets(firstPlayerName);
-    strcpy(secondPlayerName, "EVIL COMPUTER");
-
-    while (true)
+    strcpy(secondPlayerName, "EVIL COMPUTER ");
+    while (1)
     {
-        system("cls");
-        displayPlayersName(firstPlayerName, secondPlayerName);
-        displayGame();
-        cout << "\n"
-             << firstPlayerName << ", ENTER MARKING PLACE: ";
-        cin >> markPlace;
-        if (markPlace >= 1 && markPlace <= 9)
+        while (1)
         {
-            flag = markingPlaceEvilCom(markPlace);
-            int ans = winGame();
-            if (ans == 1)
-                displayWinner(firstPlayerName);
-            else if (ans == 2)
-                displayWinner(secondPlayerName);
-        }
-        else
-        {
-            cout << "\n\tINVALID MARKING PLACE... TRY AGAIN!" << endl;
-        }
-
-        if (flag == 0 && --totalMoves == 0)
-        {
-            cout << "\n\tOOPS!, MATCH IS DRAW, NICE PLAY BOTH OF THE PLAYER!";
-            cout << "\nPRESS ANY KEY....";
-            getch();
-            restartTheGame();
-        }
-    }
-}
-
-void restartTheGame()
-{
-    system("cls");
-    int choice;
-    cout << "\n\tDO YOU WANT TO PLAY AGAIN!\n";
-    cout << "1 - YES" << endl;
-    cout << "2 - NO" << endl;
-    cout << "\tENTER YOUR CHOICE: ";
-    cin >> choice;
-    if (choice == 1)
-        main();
-    else
-    {
-        cout << "THANKU, FOR PLAYING THE GAME, VISIT AGAIN!\nHAVE A GOOD DAY/NIGHT";
-        exit(0);
-    }
-}
-
-int checkedEvilCom()
-{
-    if (computer_win())
-    {
-        cout << "\nOOPS!, YOU LOSE THE GAME, EVIL COMPUTER WIN THE GAME , WELL PLAYED";
-        cout << "PRESS ANY KEY...";
-        getch();
-        restartTheGame();
-    }
-
-    int i, j, countX, flag = 0;
-    for (i = 0; i < 3; i++)
-    {
-        countX = 0;
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[i][j] == 'X')
-                countX++;
-        }
-        if (countX == 2)
-        {
-            for (j = 0; j < 3; j++)
+            system("cls");
+            displayPlayersName(firstPlayerName, secondPlayerName);
+            displayGame();
+            cout << "\n"
+                 << firstPlayerName << ", ENTER MARKING PLACE: ";
+            cin >> markPlace;
+            if ((markPlace >= 1 && markPlace <= 9) && check_exist(markPlace))
+                break;
+            else
             {
-                if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
-                {
-                    matrix[i][j] = 'O';
-                    flag = 1;
-                }
+                cout << "\n\tINVALID INPUT OR ALREADY TAKE! TRY AGAIN....\nPRESS ANY KEY FOR CONTINUE....";
+                getch();
             }
         }
+        markingPlaceEvilComputer(markPlace, firstPlayerName, secondPlayerName, totalMoves);
     }
-
-    for (i = 0; i < 3; i++)
-    {
-        countX = 0;
-        for (j = 0; j < 3; j++)
-        {
-            if (matrix[j][i] == 'X')
-                countX++;
-        }
-        if (countX == 2)
-        {
-            for (j = 0; j < 3; j++)
-            {
-                if (!(matrix[j][i] == 'X' || matrix[j][i] == 'O'))
-                {
-                    matrix[j][i] = 'O';
-                    flag = 1;
-                }
-            }
-        }
-    }
-
-    countX = 0;
-    for (i = 0; i < 3; i++)
-    {
-        if (matrix[i][i] == 'X')
-            countX++;
-    }
-    if (countX == 2)
-    {
-        for (j = 0; j < 3; j++)
-        {
-            if (!(matrix[j][j] == 'X' || matrix[j][j] == 'O'))
-            {
-                matrix[j][j] = 'O';
-                flag = 1;
-            }
-        }
-    }
-
-    countX = 0;
-    for (i = 0, j = 2; i < 3; i++, j--)
-    {
-        if (matrix[i][j] == 'X')
-            countX++;
-    }
-    if (countX == 2)
-    {
-        for (i = 0, j = 2; j < 3; i++, j--)
-        {
-            if (!(matrix[i][j] == 'X' || matrix[i][j] == 'O'))
-            {
-                matrix[i][j] = 'O';
-                flag = 1;
-            }
-        }
-    }
-
-    if (flag)
-        return 0;
-    return 1;
 }
 
 int main()
