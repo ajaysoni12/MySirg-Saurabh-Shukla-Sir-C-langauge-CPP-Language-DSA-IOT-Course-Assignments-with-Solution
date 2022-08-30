@@ -299,7 +299,7 @@ int isTwo()
         return 1;
     else if ((matrix[0][2] == matrix[1][1]) || (matrix[0][2] == matrix[2][0]) || (matrix[1][1] == matrix[2][0])) // right diagonal
         return 1;
-    
+
     return 0;
 }
 
@@ -545,7 +545,15 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
         getch();
         restartTheGame();
     }
-
+    if (totalMoves <= 0)
+    {
+        system("cls");
+        displayPlayersName(firstPlayerName, secondPlayerName);
+        displayGame();
+        cout << "\n\tOOPS...!! MATCH IS DRAWN...\nPRESS ANY KEY...";
+        getch();
+        restartTheGame();
+    }
     // for win
     // for first row
     if (matrix[0][0] == 'O' && matrix[0][1] == 'O' && matrix[0][2] != 'X')
@@ -565,7 +573,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for second row
-    if (matrix[1][0] == 'O' && matrix[1][1] == 'O' && matrix[1][2] != 'X')
+    else if (matrix[1][0] == 'O' && matrix[1][1] == 'O' && matrix[1][2] != 'X')
     {
         matrix[1][2] = 'O';
         totalMoves--;
@@ -582,7 +590,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for third row
-    if (matrix[2][0] == 'O' && matrix[2][1] == 'O' && matrix[2][2] != 'X')
+    else if (matrix[2][0] == 'O' && matrix[2][1] == 'O' && matrix[2][2] != 'X')
     {
         matrix[2][2] = 'O';
         totalMoves--;
@@ -599,7 +607,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for first col
-    if (matrix[0][0] == 'O' && matrix[1][0] == 'O' && matrix[2][0] != 'X')
+    else if (matrix[0][0] == 'O' && matrix[1][0] == 'O' && matrix[2][0] != 'X')
     {
         matrix[2][0] = 'O';
         totalMoves--;
@@ -616,7 +624,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for second col
-    if (matrix[0][1] == 'O' && matrix[1][1] == 'O' && matrix[2][1] != 'X')
+    else if (matrix[0][1] == 'O' && matrix[1][1] == 'O' && matrix[2][1] != 'X')
     {
         matrix[2][1] = 'O';
         totalMoves--;
@@ -633,7 +641,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for third col
-    if (matrix[0][2] == 'O' && matrix[1][2] == 'O' && matrix[2][2] != 'X')
+    else if (matrix[0][2] == 'O' && matrix[1][2] == 'O' && matrix[2][2] != 'X')
     {
         matrix[2][2] = 'O';
         totalMoves--;
@@ -650,7 +658,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for left diagonal
-    if (matrix[0][0] == 'O' && matrix[1][1] == 'O' && matrix[2][2] != 'X')
+    else if (matrix[0][0] == 'O' && matrix[1][1] == 'O' && matrix[2][2] != 'X')
     {
         matrix[2][2] = 'O';
         totalMoves--;
@@ -667,7 +675,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     }
 
     // for right diagonal
-    if (matrix[0][2] == 'O' && matrix[1][1] == 'O' && matrix[2][0] != 'X')
+    else if (matrix[0][2] == 'O' && matrix[1][1] == 'O' && matrix[2][0] != 'X')
     {
         matrix[2][0] = 'O';
         totalMoves--;
@@ -683,21 +691,35 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
         totalMoves--;
     }
 
+    if (gameWinner('O') == 'O')
+    {
+        system("cls");
+        displayGame();
+        cout << "\n\tYOU LOSE THE GAME--!, " << secondPlayerName << " WIN THE GAME...";
+        cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
+    }
+
     // for defend
     // for first row
+    int flag = 0;
     if (matrix[0][0] == 'X' && matrix[0][1] == 'X' && matrix[0][2] != 'O')
     {
         matrix[0][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[0][0] == 'X' && matrix[0][2] == 'X' && matrix[0][1] != 'O')
     {
         matrix[0][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[0][1] == 'X' && matrix[0][2] == 'X' && matrix[0][0] != 'O')
     {
         matrix[0][0] = 'O';
+        flag = 1;
         totalMoves--;
     }
 
@@ -706,15 +728,18 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     {
         matrix[1][2] = 'O';
         totalMoves--;
+        flag = 1;
     }
     else if (matrix[1][0] == 'X' && matrix[1][2] == 'X' && matrix[1][1] != 'O')
     {
         matrix[1][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[1][1] == 'X' && matrix[1][2] == 'X' && matrix[1][0] != 'O')
     {
         matrix[1][0] = 'O';
+        flag = 1;
         totalMoves--;
     }
 
@@ -722,17 +747,20 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     if (matrix[2][0] == 'X' && matrix[2][1] == 'X' && matrix[2][2] != 'O')
     {
         matrix[2][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[2][0] == 'X' && matrix[2][2] == 'X' && matrix[2][1] != 'O')
     {
         matrix[2][1] = 'O';
         totalMoves--;
+        flag = 1;
     }
     else if (matrix[2][1] == 'X' && matrix[2][2] == 'X' && matrix[2][0] != 'O')
     {
         matrix[2][0] = 'O';
         totalMoves--;
+        flag = 1;
     }
 
     // for first col
@@ -740,15 +768,18 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     {
         matrix[2][0] = 'O';
         totalMoves--;
+        flag = 1;
     }
     else if (matrix[0][0] == 'X' && matrix[2][0] == 'X' && matrix[1][0] != 'O')
     {
         matrix[1][0] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[1][0] == 'X' && matrix[2][0] == 'X' && matrix[0][0] != 'O')
     {
         matrix[0][0] = 'O';
+        flag = 1;
         totalMoves--;
     }
 
@@ -756,16 +787,19 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     if (matrix[0][1] == 'X' && matrix[1][1] == 'X' && matrix[2][1] != 'O')
     {
         matrix[2][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[0][1] == 'X' && matrix[2][1] == 'X' && matrix[1][1] != 'O')
     {
         matrix[1][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[1][1] == 'X' && matrix[2][1] == 'X' && matrix[0][1] != 'O')
     {
         matrix[0][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
 
@@ -773,16 +807,19 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     if (matrix[0][2] == 'X' && matrix[1][2] == 'X' && matrix[2][2] != 'O')
     {
         matrix[2][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[0][2] == 'X' && matrix[2][2] == 'X' && matrix[1][2] != 'O')
     {
         matrix[1][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[1][2] == 'X' && matrix[2][2] == 'X' && matrix[0][2] != 'O')
     {
         matrix[0][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
 
@@ -790,16 +827,19 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     if (matrix[0][0] == 'X' && matrix[1][1] == 'X' && matrix[2][2] != 'O')
     {
         matrix[2][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[0][0] == 'X' && matrix[2][2] == 'X' && matrix[1][1] != 'O')
     {
         matrix[1][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[1][1] == 'X' && matrix[2][2] == 'X' && matrix[0][0] != 'O')
     {
         matrix[0][0] = 'O';
+        flag = 1;
         totalMoves--;
     }
 
@@ -807,46 +847,38 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
     if (matrix[0][2] == 'X' && matrix[1][1] == 'X' && matrix[2][0] != 'O')
     {
         matrix[2][0] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[0][2] == 'X' && matrix[2][0] == 'X' && matrix[1][1] != 'O')
     {
         matrix[1][1] = 'O';
+        flag = 1;
         totalMoves--;
     }
     else if (matrix[1][1] == 'X' && matrix[2][0] == 'X' && matrix[0][2] != 'O')
     {
         matrix[0][2] = 'O';
+        flag = 1;
         totalMoves--;
     }
-    else
-    {
-        if (totalMoves <= 0)
-        {
-            system("cls");
-            displayPlayersName(firstPlayerName, secondPlayerName);
-            displayGame();
-            cout << "\n\tOOPS...!! MATCH IS DRAWN...\nPRESS ANY KEY...";
-            getch();
-            restartTheGame();
-        }
-        else
-        {
-            while (1)
-            {
-                int random = rand() % 9 + 1;
-                if (check_exist(random))
-                {
-                    for (int i = 0; i < 3; i++)
-                        for (int j = 0; j < 3; j++)
-                            if (matrix[i][j] == random)
-                            {
-                                matrix[i][j] = 'O';
-                                totalMoves--;
-                            }
 
-                    break;
-                }
+    if (flag == 0)
+    {
+        while (1)
+        {
+            int random = rand() % 9 + 1;
+            if (check_exist(random))
+            {
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        if (matrix[i][j] == random)
+                        {
+                            matrix[i][j] = 'O';
+                            totalMoves--;
+                        }
+
+                break;
             }
         }
     }
@@ -856,6 +888,15 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
         displayGame();
         cout << "\n\tYOU LOSE THE GAME--!, " << secondPlayerName << " WIN THE GAME...";
         cout << "PRESS ANY KEY....";
+        getch();
+        restartTheGame();
+    }
+    if (totalMoves <= 0)
+    {
+        system("cls");
+        displayPlayersName(firstPlayerName, secondPlayerName);
+        displayGame();
+        cout << "\n\tOOPS...!! MATCH IS DRAWN...\nPRESS ANY KEY...";
         getch();
         restartTheGame();
     }
