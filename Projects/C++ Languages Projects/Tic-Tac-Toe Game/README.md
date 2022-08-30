@@ -1,22 +1,4 @@
+<h2>Tic-Tac-Toe Console Game</h2>
 
-
-
-![App Screenshot](D:\App Development\App Development Project\LoginUIDesign)
-
-
-
-
-
-
-
-
-
-
-
-Simple Login App
-
-This is a java based simple login app which have simple entry email and password. 
-
-One of the first simple apps i created while on my journey to learn android app development. 
-
-Here, I work on User_Interface of Android Apps. 
+<h5>Game Discription</h5> 
+Tic-tac-toe is the game given by the incidence structure, </br> consisting of nine points, three horizontal lines, three vertical lines, and two diagonal lines, each line consisting of at least three points.
