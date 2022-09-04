@@ -2,10 +2,8 @@
 
 <h2>Saurabh Sukla Sir(MySirg)</h2>
 
-Firstly Thanks to open My gitHub profile </br>
+Here, I upload all Asignments and there solutions of Bootcamp course (C, C++ Languages , Data Structure and alogorithm with Internet Of Thing and Many More).  </br>
 
-Here, I upload all Asignment and there solutions of Bootcamp course (C, C++ Languages , Data Structure and alogorithm with Internet Of Thing and Many More).  </br>
-
-SIR COVER MORE THAN 800+ ASSIGNMENT QUESTIONS AND MORE THAN 13+ PROJECT BASED ON C,C++,DSA,IOT. 
+Saurabh Sukla sir cover more than 800+ Assignment question with 13+ projects based on c, c++, dsa and iot. 
 
 
