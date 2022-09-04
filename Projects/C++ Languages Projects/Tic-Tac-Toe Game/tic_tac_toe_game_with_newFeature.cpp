@@ -760,7 +760,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
         totalMoves--;
         computerMove = 2;
     }
-    else if (matrix[0][1] == secondPlayerSymbol && matrix[0][2] == secondPlayerSymbol && matrix[0][0] != 'X')
+    else if (matrix[0][1] == secondPlayerSymbol && matrix[0][2] == secondPlayerSymbol && matrix[0][0] != secondPlayerSymbol)
     {
         matrix[0][0] = secondPlayerSymbol;
         totalMoves--;
@@ -854,7 +854,7 @@ void markingPlaceEvilComputer(int markPlace, char firstPlayerName[], char second
         totalMoves--;
         computerMove = 9;
     }
-    else if (matrix[0][2] == secondPlayerSymbol && matrix[2][2] == secondPlayerSymbol && matrix[1][2] != 'X')
+    else if (matrix[0][2] == secondPlayerSymbol && matrix[2][2] == secondPlayerSymbol && matrix[1][2] != secondPlayerSymbol)
     {
         matrix[1][2] = secondPlayerSymbol;
         totalMoves--;
