@@ -140,7 +140,7 @@ void DetectToken::addLineWithFindToken()
     fflush(stdin);
     getline(cin, temp);
     ofstream fout;
-    fout.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt", ios::app);
+    fout.open("C:/detectToken.txt", ios::app);
     if (!fout)
     {
         cout << "\nFile not open....";
@@ -174,7 +174,7 @@ void DetectToken::updateLine()
         fflush(stdin);
         getline(cin, tempLine);
         ofstream fout;
-        fout.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt", ios::app);
+        fout.open("C:/detectToken.txt", ios::app);
         if (!fout)
         {
             cout << "\nFile not open...";
@@ -201,9 +201,9 @@ void DetectToken::deleteLine(string line = "")
         getline(cin, line);
     }
     ifstream fin;
-    fin.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt");
+    fin.open("C:/detectToken.txt");
     ofstream fout;
-    fout.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/temp.txt", ios::app);
+    fout.open("C:/temp.txt", ios::app);
     if (!fin || !fout)
     {
         cout << "\nFile Not Create..";
@@ -222,8 +222,8 @@ void DetectToken::deleteLine(string line = "")
             }
             fin.close();
             fout.close();
-            remove("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt");
-            rename("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/temp.txt", "D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt");
+            remove("C:/detectToken.txt");
+            rename("C:/temp.txt", "C:/detectToken.txt");
             cout << "\nRecord deleted successfully...";
         }
         else
@@ -242,7 +242,7 @@ bool DetectToken::searchLine(string s = "")
         fflush(stdin);
         getline(cin, s);
     }
-    fin.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt");
+    fin.open("C:/detectToken.txt");
     if (!fin)
         cout << "\nFile not Open....";
     else
@@ -263,7 +263,7 @@ bool DetectToken::searchLine(string s = "")
 void DetectToken::printAllLine()
 {
     ifstream fin;
-    fin.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt");
+    fin.open("C:/detectToken.txt");
     if (!fin)
     {
         cout << "\nFile not open...";
@@ -287,7 +287,7 @@ void DetectToken::addLine()
     DetectToken d;
     getline(cin, line);
     ofstream fout;
-    fout.open("D:/My LIfe/MySirg C,C++,IOT Assignment/Projects/C++ Languages Projects/C++ program to detect tokens/detectToken.txt", ios::app);
+    fout.open("C:/detectToken.txt", ios::app);
     if (!fout)
     {
         cout << "\nFile not open....";
